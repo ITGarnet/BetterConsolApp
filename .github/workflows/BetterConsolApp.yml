@@ -23,3 +23,13 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Puulish Softare Artifacts
+      run: dotnet publish --no-restore -c Debug --output ./bin/Debug/net5.0
+    - name: Use the Upload Artifact GitHub Action
+      uses: actions/upload-artifact@v2.2.0
+      with: 
+        name: assets-for-download
+        path: ./bin/Debug/net5.0/**  
+        if-no-files-found: error
+        #Duration after which artifact will expire in days. 0 means using default retention
+        retention-days: 30
